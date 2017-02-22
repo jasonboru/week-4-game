@@ -7,7 +7,8 @@ $(document).ready(function() {
 	var roundWon = false;
 	var roundLost = false;
 	var chooseOpponent = false;
-	var pickNPC;
+	var attacker;
+	var attacked;
 
 	//set up objects: Toon
 		//give objects  name: hitP: atkP: expP
@@ -31,25 +32,34 @@ $(document).ready(function() {
 		if (!(gameActive) && !(chooseOpponent)) {
 			chooseOpponent=true; //progress to player picks an opponent
 			$("#choose").html("Opponent"); //changes choose 'Character' to 'Opponent'
-			playerToon = $(this).detach(); //removes players toon from list but will keep data in place
-			playerToon.appendTo("#battle-player"); //adds player to battle
+			attacker = $(this).detach(); //removes players toon from list but will keep data in place
+			attacker.appendTo("#battle-player"); //adds player to battle
 			$("#arena").css("display", "block"); //show the battle arena which was priviously hidden
-		} else if (chooseOpponent) {
+		} else if (chooseOpponent) { //functionm fo on click event for user to pick their 1st oppenent
 			chooseOpponent=false;
 			gameActive=true; //will Activate later code to start the battle round
-			npcToon = $(this).detach(); // removes opponent from available
-			npcToon.appendTo("#battle-npc"); // adds npc to battle
+			attacked = $(this).detach(); // removes opponent from available
+			attacked.appendTo("#battle-npc"); // adds npc to battle
 			$("#toonSelectPanel").css("display", "none"); //hide the remaining unselected toons
 		}
 	})
 
-	//functionm fo on click event for user to pick their 1st oppenent
-
-		//the players toon and chosen NPC should both move into a battle arena area
-
 	//function for on click of an Attack button to begin some code that has the player attack the NPC vice.versa
+	function attack() {
+		var opHitP = parseInt(attacked.data("hitP")); //stores oponents hit points as a num
+		var userAP = parseInt(attacker.data("atkP")); //stores users attack power as a num
+		opHitP -= userAP; //fight should use attack power to decrease hit points
+		attacked.data("hitP", opHitP); //change data on attacked hitP
+		$("#battle-npc").find(".toonHP").html(opHitP);
+		console.log(opHitP);
+	}
+
+	$(".fight").on("click", function() {
+		attack();
+	});
+
 		
-		//fight should use attack power to decrease hit points
+		
 		
 		//Print the results of each fight(click of attack btn) to the DOM
 		
