@@ -1,13 +1,45 @@
 $(document).ready(function() {
 
 	//set up variables: gameStart, gameWon, gameLost, roundWon, roundLost, pickToon, pickNPC
+	var gameActive = false;
+	var gameWon = false;
+	var gameLost = false;
+	var roundWon = false;
+	var roundLost = false;
+	var chooseOpponent = false;
+	var pickNPC;
 
 	//set up objects: Toon
 		//give objects  name: hitP: atkP: expP
+	var toonRey = {
+		hitP: 100, atkP: 5, expP: 10 
+	}
 
+	var toonFinn = {
+		hitP: 125, atkP: 10, expP: 8 
+	}
+
+	var toonPhasma = {
+		hitP: 150, atkP: 15, expP: 6 
+	}
+
+	var toonKyloRen = {
+		hitP: 180, atkP: 20, expP: 4 
+	}
 	//function for on click event for user to pick their Toon
-
-		//the remaining toons should be moved to an 'opponent' area
+	$(".toonSelect").on("click", function() {
+		if (!(gameActive) && !(chooseOpponent)) {
+			chooseOpponent=true; //progress to player picks an opponent
+			$("#choose").html("Opponent"); //changes choose 'Character' to 'Opponent'
+			playerToon = $(this).detach(); //removes players toon from list but will keep data in place
+			playerToon.appendTo("#battle-player"); //adds player to battle
+		} else if (chooseOpponent) {
+			chooseOpponent=false;
+			gameActive=true; //will Activate later code to start the battle round
+			npcToon = $(this).detach(); // removes opponent from available
+			npcToon.appendTo("#battle-npc"); // adds npc to battle
+		}
+	})
 
 	//functionm fo on click event for user to pick their 1st oppenent
 

@@ -36,6 +36,14 @@ body {
     background-color: #cde2e7;
 }
 
+#logo, #areana {
+    padding-top: 2em;
+}
+
+#arena {
+    display: none;
+}
+
 .footer {
     position: fixed;
     bottom: 0;
