@@ -21,9 +21,14 @@
                 <img src="assets/images/starwars_logo_shadow.png" alt="Star Wars RPG logo" class="img-responsive">
                 </div>
             </div>
-            <div class="col-lg-8 col-lg-push-4" id="arena">
+            <div class="col-lg-8 col-lg-pull-4" id="arena">
 
                 <div id = "battle-player"></div>
+
+                    <div class = "col-lg-2 text-center">
+                        <h1>VS</h1>
+                        <button class = "btn btn-primary center-block" id="fight">Fight</button>
+                    </div>
                 <div id = "battle-npc"></div>
             </div>
 
@@ -35,8 +40,10 @@
             <div class="col-lg-8">
                 <div class="row">
 
-                <div><!--ToonSelect-->
+                <div id="toonSelectPanel"><!--toonSelectPanel-->
+                <div class="category">
                 <h3>Choose Your <span id="choose">Character</span></h3>
+                </div>
                     <div class="col-lg-3 thumbnail toonSelect">
                         <div class="subTitle toonName">
                             Rey

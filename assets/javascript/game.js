@@ -33,11 +33,13 @@ $(document).ready(function() {
 			$("#choose").html("Opponent"); //changes choose 'Character' to 'Opponent'
 			playerToon = $(this).detach(); //removes players toon from list but will keep data in place
 			playerToon.appendTo("#battle-player"); //adds player to battle
+			$("#arena").css("display", "block"); //show the battle arena which was priviously hidden
 		} else if (chooseOpponent) {
 			chooseOpponent=false;
 			gameActive=true; //will Activate later code to start the battle round
 			npcToon = $(this).detach(); // removes opponent from available
 			npcToon.appendTo("#battle-npc"); // adds npc to battle
+			$("#toonSelectPanel").css("display", "none"); //hide the remaining unselected toons
 		}
 	})
 
