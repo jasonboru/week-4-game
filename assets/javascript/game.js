@@ -9,23 +9,32 @@ $(document).ready(function() {
 	var chooseOpponent = false;
 	var attacker;
 	var attacked;
+	var deadToons = [];
 
 	//set up objects: Toon
 		//give objects  name: hitP: atkP: expP
 	var toonRey = {
-		hitP: 100, atkP: 5, expP: 10 
+		hitP: 100, 
+		atkP: 5, 
+		expP: 10 
 	}
 
 	var toonFinn = {
-		hitP: 125, atkP: 10, expP: 8 
+		hitP: 125, 
+		atkP: 10, 
+		expP: 8 
 	}
 
 	var toonPhasma = {
-		hitP: 150, atkP: 15, expP: 6 
+		hitP: 150, 
+		atkP: 15, 
+		expP: 6 
 	}
 
 	var toonKyloRen = {
-		hitP: 180, atkP: 20, expP: 4 
+		hitP: 180, 
+		atkP: 20, 
+		expP: 4 
 	}
 	//function for on click event for user to pick their Toon
 	$(".toonSelect").on("click", function() {
@@ -46,13 +55,25 @@ $(document).ready(function() {
 
 	//function for on click of an Attack button to begin some code that has the player attack the NPC vice.versa
 	function attack() {
-		var opHitP = parseInt(attacked.data("hitP")); //stores oponents hit points as a num
-		var userAP = parseInt(attacker.data("atkP")); //stores users attack power as a num
+		var opHitP = parseInt(attacked.data("hitp")); //stores oponents hit points as a num
+		var userAP = parseInt(attacker.data("atkp")); //stores users attack power as a num
 		opHitP -= userAP; //fight should use attack power to decrease hit points
-		attacked.data("hitP", opHitP); //change data on attacked hitP
-		$("#battle-npc").find(".toonHP").html(opHitP);
-		console.log(opHitP);
-	}
+		attacked.data("hitp", opHitP); //change data on attacked hitP
+		$("#battle-npc").find(".toonHP").html(opHitP); //print Opponents new Hit Points post attack
+		if (opHitP <= 0) {
+			function defeated(){
+				deadToons.push(attacked.detach()); //if NPC dies move it to the deadToons array and hide it
+			} 
+		} else {
+			//if NPC lives post attack preform a counter attack.
+			var userHitP = parseInt(attacker.data("hitp")); //stores users hit points as a num
+			var opAP = parseInt(attacked.data("atkp")); //stores opponents attack power as a num
+			userHitP -= opAP; // should use npc attack power to decrease user hit points
+			attacker.data("hitp", userHitP); //change data on attacker hitP
+			$("#battle-player").find(".toonHP").html(userHitP); //print users new Hit Points post counter attack
+		}
+
+		}
 
 	$(".fight").on("click", function() {
 		attack();
