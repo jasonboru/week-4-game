@@ -16,25 +16,21 @@ $(document).ready(function() {
 	var toonRey = {
 		hitP: 100, 
 		atkP: 5, 
-		expP: 10 
 	}
 
 	var toonFinn = {
 		hitP: 125, 
 		atkP: 10, 
-		expP: 8 
 	}
 
 	var toonPhasma = {
 		hitP: 150, 
 		atkP: 15, 
-		expP: 6 
 	}
 
 	var toonKyloRen = {
 		hitP: 180, 
 		atkP: 20, 
-		expP: 4 
 	}
 	//function for on click event for user to pick their Toon
 	$(".toonSelect").on("click", function() {
@@ -44,7 +40,7 @@ $(document).ready(function() {
 			attacker = $(this).detach(); //removes players toon from list but will keep data in place
 			attacker.appendTo("#battle-player"); //adds player to battle
 			$("#arena").css("display", "block"); //show the battle arena which was priviously hidden
-		} else if (chooseOpponent) { //functionm fo on click event for user to pick their 1st oppenent
+		} else if (chooseOpponent) { //function for on click event for user to pick their 1st oppenent
 			chooseOpponent=false;
 			gameActive=true; //will Activate later code to start the battle round
 			attacked = $(this).detach(); // removes opponent from available
@@ -60,10 +56,16 @@ $(document).ready(function() {
 		opHitP -= userAP; //fight should use attack power to decrease hit points
 		attacked.data("hitp", opHitP); //change data on attacked hitP
 		$("#battle-npc").find(".toonHP").html(opHitP); //print Opponents new Hit Points post attack
+		userAP+=userAP; 
+		attacker.data("atkp", userAP);//increase the users attack power each strike.
+		console.log(userAP);
 		if (opHitP <= 0) {
 			function defeated(){
 				deadToons.push(attacked.detach()); //if NPC dies move it to the deadToons array and hide it
 			} 
+			defeated();
+			$("#toonSelectPanel").css("display", "block");
+			gameActive=false;
 		} else {
 			//if NPC lives post attack preform a counter attack.
 			var userHitP = parseInt(attacker.data("hitp")); //stores users hit points as a num
