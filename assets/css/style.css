@@ -64,6 +64,10 @@ body {
 	display: block;
 }
 
+#battle-text {
+    color: #fff;
+}
+
 .footer {
     position: fixed;
     bottom: 0;
