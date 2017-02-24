@@ -10,7 +10,9 @@ body {
 }
 
 .category {
-	color: #cde2e7;
+    font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+	color: #752f39;
+    
 }
 
 .toonPic {

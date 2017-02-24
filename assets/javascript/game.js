@@ -1,4 +1,4 @@
-$(document).ready(function() {
+ $(document).ready(function() {
 
 //set up variables: gameStart, gameWon, gameLost, roundWon, roundLost, pickToon, pickNPC
 var gameActive = false;
@@ -48,8 +48,25 @@ $(".toonSelect").on("click", function() {
         $("#toonSelectPanel").css("display", "none"); //hide the remaining unselected toons
     }
 })
+var timeoutID;
+function endRoundWin() {
+    // check if there are any oppenents left to fight.
+    if (deadToons.length === 3) {
+        function winGame() {
+            $("#battle-text").text(" You have defeated all of your Foes. You have mastered the Force!");
+            $("#toonSelectPanel").css("display", "none"); //hide the remaining unselected toons
+        }
+        timeoutID = window.setTimeout(winGame, 2000);
+        gameActive=false;
+    } else {
+        chooseOpponent = true;
+        $("#toonSelectPanel").css("display", "block");
+    }
+
+}
 
 //function for on click of an Attack button to begin some code that has the player attack the NPC vice.versa
+
 function attack() {
     var opHitP = parseInt(attacked.data("hitp")); //stores oponents hit points as a num
     var userAP = parseInt(attacker.data("atkp")); //stores users attack power as a num
@@ -61,15 +78,14 @@ function attack() {
     attacker.data("atkp", userAP); //increase the users attack power each strike.
     console.log(userAP);
     if (opHitP <= 0) {
-        function defeated() {
+        function defeatedNPC() {
             deadToons.push(attacked.detach()); //if NPC dies move it to the deadToons array and hide it
         	console.log(deadToons);
-        	$("#battle-text").text("You defeated " + attacked.data("name"));
-        	endRound();
-        }
-        $("#toonSelectPanel").css("display", "block");
-        
-        defeated();
+        	$("#battle-text").text("You defeated " + attacked.data("name") + ". ");
+        	endRoundWin();
+            
+        } 
+        timeoutID = window.setTimeout(defeatedNPC, 2000);
     } else {
         //if NPC lives post attack preform a counter attack.
         var userHitP = parseInt(attacker.data("hitp")); //stores users hit points as a num
@@ -78,6 +94,14 @@ function attack() {
         attacker.data("hitp", userHitP); //change data on attacker hitP
         $("#battle-player").find(".toonHP").html(userHitP); //print users new Hit Points post counter attack
         $("#battle-text").append("And " + attacked.data("name") + " hit you for " + opAP + ". "); //send battle notice to user
+        if (userHitP <=0) {
+            $("#battle-text").text("You have been defeated by" + attacked.data("name") + ". ");
+                function defeatedUser () {
+                    deadToons.push(attacker.detach()); //if palyer dies move it to the deadToons array and hide it
+                    console.log(deadToons);
+                }
+                timeoutID = window.setTimeout(defeatedUser, 2000);
+        }
 
     }
 
@@ -86,20 +110,6 @@ function attack() {
 $(".fight").on("click", function() {
     attack();
 });
-
-function endRound() {
-    // check if there are any oppenents left to fight.
-    if (deadToons === 3) {
-        function winGame() {
-            $("#battle-text").text(" You have defeated all of your Foes. You have mastered the Force!");
-        }
-        winGame();
-        gameActive=false;
-    } else {
-        chooseOpponent = true;
-    }
-
-}
 
 
 });
