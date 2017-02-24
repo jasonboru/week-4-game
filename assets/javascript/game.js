@@ -1,36 +1,35 @@
  $(document).ready(function() {
 
-//set up variables: gameStart, gameWon, gameLost, roundWon, roundLost, pickToon, pickNPC
+//set up variables: gameStart, gameWon, gameLost, pickToon, pickNPC
 var gameActive = false;
 var gameWon = false;
 var gameLost = false;
-var roundWon = false;
-var roundLost = false;
 var chooseOpponent = false;
 var attacker;
 var attacked;
+var winner;
 var deadToons = [];
 
 //set up objects: Toon
 //give objects  name: hitP: atkP: expP
 var toonRey = {
-    hitP: 100,
-    atkP: 5,
+    hitp: 100,
+    atkp: 5
 }
 
 var toonFinn = {
-    hitP: 125,
-    atkP: 10,
+    hitp: 125,
+    atkp: 10
 }
 
 var toonPhasma = {
-    hitP: 150,
-    atkP: 15,
+    hitp: 150,
+    atkp: 15
 }
 
 var toonKyloRen = {
-        hitP: 180,
-        atkP: 20,
+        hitp: 180,
+        atkp: 20
 }
     //function for on click event for user to pick their Toon
 $(".toonSelect").on("click", function() {
@@ -48,19 +47,53 @@ $(".toonSelect").on("click", function() {
         $("#toonSelectPanel").css("display", "none"); //hide the remaining unselected toons
     }
 })
+
+function reset() { //function for a restart btn to reset the to starting variables
+	if (gameLost) {
+		winner = attacked.detach();
+		gameActive = false;
+		chooseOpponent = false;
+		gameLost = false;
+		for (i = 0; i < deadToons.length; i++) {
+		deadToons[i].appendTo("#toonSelectPanel");
+		}
+		deadToons=[];
+		winner.appendTo("#toonSelectPanel");
+		//reset display
+		$("#battle-text").html("");
+		$("#choose").html("Character");
+		$("#reset").fadeOut("slow");
+		$("#fignt").fadeOut("slow");
+		//reset toon data
+		$("#rey").data("hitp", toonRey.hitp).find(".toonHP").html(toonRey.hitp);
+		$("#rey").data("atkp", toonRey.atkp);
+		$("#finn").data("hitp", toonFinn.hitp).find(".toonHP").html(toonFinn.hitp);
+		$("#finn").data("atkp", toonFinn.atkp);
+		$("#phasma").data("hitp", toonPhasma.hitp).find(".toonHP").html(toonPhasma.hitp);
+		$("#phasma").data("atkp", toonPhasma.atkp);
+		$("#kyloRen").data("hitp", toonRey.hitp).find(".toonHP").html(toonRey.hitp);
+		$("#kyloRen").data("atkp", toonRey.atkp);
+
+		$("#toonSelectPanel").css("display", "block");
+	}
+}
+
 var timeoutID;
 function endRoundWin() {
     // check if there are any oppenents left to fight.
     if (deadToons.length === 3) {
-        function winGame() {
-            $("#battle-text").text(" You have defeated all of your Foes. You have mastered the Force!");
+        function winGame() { //if user wins display Congrats text
+            $("#battle-text").text("Congratulations! You have defeated all of your Foes. You have mastered the Force!");
             $("#toonSelectPanel").css("display", "none"); //hide the remaining unselected toons
         }
-        timeoutID = window.setTimeout(winGame, 2000);
-        gameActive=false;
+        timeoutID = window.setTimeout(winGame, 2000); //call winGame function with a delay so the last battle text still shows
+        $("#reset").fadeIn("slow"); //show restart button
+        $("#arena").fadeOut("slow"); //hide areana (vs & fight button)
+        gameActive=false; //i dont think i need this since it is now declared false in the reset...test
+        winner = attacker.detach(); //remove the user from the battle-player div and label that toon winner
     } else {
-        chooseOpponent = true;
-        $("#toonSelectPanel").css("display", "block");
+        chooseOpponent = true; //if player won round but not game set it to choose next oppenent.
+        $("#toonSelectPanel").css("display", "block"); //show character select section
     }
 
 }
@@ -77,11 +110,11 @@ function attack() {
     userAP += userAP; //user AtkP increases each click of Fight
     attacker.data("atkp", userAP); //increase the users attack power each strike.
     console.log(userAP);
-    if (opHitP <= 0) {
+    if (opHitP <= 0) { //round ends when NPC hitP <= 0
         function defeatedNPC() {
             deadToons.push(attacked.detach()); //if NPC dies move it to the deadToons array and hide it
         	console.log(deadToons);
-        	$("#battle-text").text("You defeated " + attacked.data("name") + ". ");
+        	$("#battle-text").text("You have defeated " + attacked.data("name") + ". "); //print message 'You have defeated ' + NPCname
         	endRoundWin();
             
         } 
@@ -94,7 +127,10 @@ function attack() {
         attacker.data("hitp", userHitP); //change data on attacker hitP
         $("#battle-player").find(".toonHP").html(userHitP); //print users new Hit Points post counter attack
         $("#battle-text").append("And " + attacked.data("name") + " hit you for " + opAP + ". "); //send battle notice to user
-        if (userHitP <=0) {
+        if (userHitP <=0) { //game ends when player hitP <= 0
+        	gameLost=true;
+        	$("#reset").fadeIn("slow");
+        	$("#arena").fadeOut("slow");
             $("#battle-text").text("You have been defeated by" + attacked.data("name") + ". ");
                 function defeatedUser () {
                     deadToons.push(attacker.detach()); //if palyer dies move it to the deadToons array and hide it
@@ -107,32 +143,18 @@ function attack() {
 
 }
 
-$(".fight").on("click", function() {
-    attack();
-});
+$("button").on("click", function() { //on click events for buttons
+	if (gameLost || !(gameActive)) { // if user lost and game isnt active click does a reset
+		reset();
+	} else { // otherwise click preform an attack
+		attack();
+	}
+})
 
 
 });
 
-
-//round should end when player or NPC hitP < 0
-
-//if player wins
-
-//print message 'You have defeated ' + NPCname
 
 //if attack btn is clicked before new oppenent give message to pick one
-
-//the gains in atkP & expP should be remembered in subsequent rounds
-
-//if there are no more opennents to select print message 'you win game' give a restart btn
-
-//if player loses
-
-//print message 'You have been defeated by ' + NPCname
-
-//give a restart btn
-
-//function for a resart btn to reload the page
 
 
