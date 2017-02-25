@@ -42,13 +42,26 @@ body {
     background-color: #cde2e7;
 }
 
-.btn, .btn-primary, .btn-primary:active, .btn-primary:focus, .btn-primary:visited {
+.thumbnail img {
+    width: 100%;
+}
+
+.wrapper {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.wrapper {
+    background-color: rgba(117, 47, 57, 0.5);
+}
+
+.btn, .btn:active, .btn:focus, .btn:visited {
 	color: #cde2e7;
 	background-color: #752f39;
 	border-color: #752f39;
 }
 
-.btn-primary:hover {
+.btn:hover {
 	color: #752f39;
 	background-color: #cde2e7;
 	border-color: #752f39;
@@ -62,12 +75,24 @@ body {
 	display: none;
 }
 
+#arena {
+    text-align: center;
+    min-height: 100%;
+}
+
+#reset {
+    margin: 20px;
+}
+
 #toonSelectPanel {
 	display: block;
 }
 
 #battle-text {
     color: #fff;
+}
+.buffer {
+    margin-top: 30px;
 }
 
 .footer {
@@ -80,3 +105,4 @@ body {
     text-align: center;
     border-top: 3px solid #000;
 }
+
