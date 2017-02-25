@@ -132,6 +132,7 @@
                  endRoundWin();
 
              }
+             chooseOpponent=true;
              timeoutID = window.setTimeout(defeatedNPC, 1000);
          } else {
              //if NPC lives post attack preform a counter attack.
