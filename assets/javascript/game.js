@@ -12,7 +12,7 @@
      var deadToons = [];
 
      var audioSaber = document.createElement("audio");
-     audioSaber.setAttribute("src", "assets/sounds/Lightsaber-Clash.mp3");
+     audioSaber.setAttribute("src", "https://s3.amazonaws.com/job-ucf-code-bootcamp/homework/Lightsaber-Clash.mp3");
 
      //set up objects: Toon
      //give objects  name: hitP: atkP: expP
@@ -130,8 +130,8 @@
                  console.log(deadToons);
                  $("#battle-text").text("You have defeated " + attacked.data("name") + ". "); //print message 'You have defeated ' + NPCname
                  endRoundWin();
-
              }
+             chooseOpponent = true;
              timeoutID = window.setTimeout(defeatedNPC, 1000);
          } else {
              //if NPC lives post attack preform a counter attack.
@@ -143,7 +143,6 @@
              $("#battle-text").append("And " + attacked.data("name") + " hit you for " + opAP + ". "); //send battle notice to user
              if (userHitP <= 0) { //game ends when player hitP <= 0
                  gameLost = true;
-
                  $("#arena").fadeOut("slow");
                  $("#battle-text").text("You have been defeated by" + attacked.data("name") + ". ");
 
@@ -179,3 +178,4 @@
 
 
  });
+
