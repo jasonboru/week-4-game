@@ -131,7 +131,7 @@
                  $("#battle-text").text("You have defeated " + attacked.data("name") + ". "); //print message 'You have defeated ' + NPCname
                  endRoundWin();
              }
-             chooseOpponent = true;
+             chooseOpponent=true;
              timeoutID = window.setTimeout(defeatedNPC, 1000);
          } else {
              //if NPC lives post attack preform a counter attack.
