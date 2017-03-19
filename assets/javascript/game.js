@@ -34,7 +34,7 @@
      var toonKyloRen = {
              hitp: 180,
              atkp: 1
-     }
+         }
          //function for on click event for user to pick their Toon
      $(".toonSelect").on("click", function() {
          if (!(gameActive) && !(chooseOpponent)) {
@@ -131,7 +131,7 @@
                  $("#battle-text").text("You have defeated " + attacked.data("name") + ". "); //print message 'You have defeated ' + NPCname
                  endRoundWin();
              }
-             chooseOpponent=true;
+             chooseOpponent = true;
              timeoutID = window.setTimeout(defeatedNPC, 1000);
          } else {
              //if NPC lives post attack preform a counter attack.
@@ -176,6 +176,4 @@
          }
      })
 
-
  });
-
